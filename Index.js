@@ -26,25 +26,33 @@ client.on('ready', () => {
 
 /*Commands*/
 client.on('message', (message) => {
-    if(message.content.includes('!new')) {
+    if(message.guild.channels.exists(message.author.username)) {
+    if(message.content == '!new') {
 
         message.channel.send(ticket).then(() => {
-            const filter = m => m.content.includes('!new') || m.author.id === message.author.id;
+            const filter = m => m.content == '!new' || m.author.id === message.author.id;
 
             message.channel.awaitMessages(filter, { max: 1, time: 15000, errors: ['time'] })
             .then(collected => {
-                message.channel.send("Your Ticket has been Opended!")
-                message.guild.createChannel(message.author.username, { type: `text`, topic: collected.first().content.toLowerCase()})
+                message.channel.send(config.ticketOpen)
+                message.guild.createChannel(message.author.username, { type: `text`, topic: collected.first().content.toLowerCase(), parent: config.category}).then(() => {
+                    message.guild.channels.find(channel => channel.name === message.author.username)
+                    
+                    })
+                })
 
-            })
-
-    })
+             })
+        }
+    } else {
+        message.reply(config.open)
+        setTimeout(function(){
+            message.delete(2)},
+            3000);
+        }
     
-    if(message.content == '!help') {
-        message.channel.send(help)
-    }
-}
-})
+    
+        })
+    
 
 client.login(config.token);
 
