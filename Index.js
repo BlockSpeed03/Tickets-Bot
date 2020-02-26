@@ -18,6 +18,7 @@ const help = new Discord.RichEmbed()
 
 const prefix = (config.prefix)
 
+const supportrole = (config.supportRoleid)
 client.on('ready', () => {
     client.channels.get("680316816156786694").send("Bot Active! Waiting to react to commands!")
     client.user.setActivity("Testing Bot", {type:"WATCHING"})
@@ -26,11 +27,12 @@ client.on('ready', () => {
 
 /*Commands*/
 client.on('message', (message) => {
-    if(!message.guild.channels.find(x => x.name === message.author.username)) {
-    if(message.content == '!new') {
+    if(message.author.bot) return;
+    if(!message.guild.channels.find(x => x.name === message.author)) {
+    if(message.content == (prefix + "new") || message.channel.id == config.ticketChannel) {
 
         message.channel.send(ticket).then(() => {
-            const filter = m => m.content == '!new' || m.author.id === message.author.id;
+            const filter = m => m.content == (prefix + "new") || m.author.id === message.author.id;
 
             message.channel.awaitMessages(filter, { max: 1, time: 15000, errors: ['time'] })
             .then(collected => {
@@ -42,16 +44,18 @@ client.on('message', (message) => {
                     .then((created) => {
                     message.guild.channels.find(channel => channel.name === message.author.username)
                     created.send(message.author + ' ' + config.message)
-                    
                     })
                 })
 
              })
         }
     } else {
-        message.reply(config.open)            
+        message.send(config.open)      
+        console.log("test");      
         }
-    
+    if(message.guild.roles.get(supportrole)) {
+        
+    }
     
         })
     

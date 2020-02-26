@@ -1,9 +1,30 @@
 {
-    "token": "NjgwNDQ5ODA4NjU3Mjg1MjMw.XlaWcA.Wb8iLbnTE65-c5pep49q00fa2IQ",
+    "token": "NjgwNDQ5ODA4NjU3Mjg1MjMw.XlbFpQ.CzaUZCPcgyzUWo4IiYKLt4upSlU",
+
+    "1_comment": "the prefix that is required to excute a command",
     "prefix": "!",
+
+    "2_comment": "This is the message that well be sent when a message is sent",
     "ticketOpen": "Your Ticket has been Opended!",
+
+    "3_comment": "The catagory that the ticket will go it to initally ",
     "category": "680312334006485016",
+
+    "4_comment": "If a user has ticket opened this message will be sent",
     "open": "You already have a Ticket open",
+
+    "5_comment": "The message that will be sent to a new ticket",
     "message": "Thank you for opening a ticket a staff member will be with you shortly",
+
+    "6_comment": "This is where the command needs to be sent",
+    "ticketcommandid": "680316816156786694",
+
+    "7_comment": "The role a user has to be to answer the tickets",
+    "supportRoleid": "682311013055725568",
+
+    "8_comment": "The ID of the channel that listens for the commands",
+    "ticketChannel": "680316816156786694",
+
+    "9_comment": "The owner of the server id",
     "ownerID": "271488437125644300"
 }
