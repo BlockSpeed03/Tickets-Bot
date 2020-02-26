@@ -26,7 +26,7 @@ client.on('ready', () => {
 
 /*Commands*/
 client.on('message', (message) => {
-    if(message.guild.channels.exists(message.author.username)) {
+    if(!message.guild.channels.find(x => x.name === message.author.username)) {
     if(message.content == '!new') {
 
         message.channel.send(ticket).then(() => {
@@ -35,8 +35,13 @@ client.on('message', (message) => {
             message.channel.awaitMessages(filter, { max: 1, time: 15000, errors: ['time'] })
             .then(collected => {
                 message.channel.send(config.ticketOpen)
-                message.guild.createChannel(message.author.username, { type: `text`, topic: collected.first().content.toLowerCase(), parent: config.category}).then(() => {
+                message.guild.createChannel(message.author.username, { 
+                    type: `text`, 
+                    topic: collected.first().content.toLowerCase(), 
+                    parent: config.category})
+                    .then((created) => {
                     message.guild.channels.find(channel => channel.name === message.author.username)
+                    created.send(message.author + ' ' + config.message)
                     
                     })
                 })
@@ -44,10 +49,7 @@ client.on('message', (message) => {
              })
         }
     } else {
-        message.reply(config.open)
-        setTimeout(function(){
-            message.delete(2)},
-            3000);
+        message.reply(config.open)            
         }
     
     
