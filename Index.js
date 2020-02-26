@@ -27,26 +27,24 @@ client.on('ready', () => {
 /*Commands*/
 client.on('message', (message) => {
     if(message.content.includes('!new')) {
-        message.channel.send(ticket)
-        const filter = m => m.content.includes('!new') || m.author.id === message.author.i;
-        const collector = message.channel.createMessageCollector(filter, { max: 1, time: 10000 });
 
-        collector.on('collect', m => {
-            console.log(`Collected ${m.content}`);
-        });
+        message.channel.send(ticket).then(() => {
+            const filter = m => m.content.includes('!new') || m.author.id === message.author.id;
 
-        collector.on('end', collected => {
-            message.guild.createChannel(`${message.author.username}` + `${ collected}`, "text")
-            console.log(`Collected ${collected.size} items`)
-        });
-        }
-        
+            message.channel.awaitMessages(filter, { max: 1, time: 15000, errors: ['time'] })
+            .then(collected => {
+                message.channel.send("Your Ticket has been Opended!")
+                message.guild.createChannel(message.author.username, { type: `text`, topic: collected.first().content.toLowerCase()})
+
+            })
+
+    })
     
     if(message.content == '!help') {
         message.channel.send(help)
     }
-});
-
+}
+})
 
 client.login(config.token);
 
