@@ -47,6 +47,10 @@ client.on('message', (message) => {
                         {
                             id: message.author.id,
                             allow: ['VIEW_CHANNEL'],
+                            },
+                            {
+                            id: `680280545456029910`,
+                            deny: ['VIEW_CHANNEL'],
                         }
                     ]})
                     .then((created) => {
@@ -61,7 +65,8 @@ client.on('message', (message) => {
         message.send(config.open)      
         console.log("test");      
         }
-    if(message.guild.roles.cache.get(supportrole)) {
+    if(message.channel) {
+    message.channel.send("test") 
         
     }
     
