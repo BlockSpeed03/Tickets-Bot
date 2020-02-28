@@ -22,7 +22,7 @@ const prefix = (config.prefix)
 
 const supportrole = (config.supportRoleid)
 client.on('ready', () => {
-    client.channels.cache.get("680316816156786694").send("Bot Active! Waiting to react to commands!")
+    client.channels.cache.get("682650628626972738").send("Bot Active! Waiting to react to commands!")
     client.user.setActivity("Testing Bot", {type:"WATCHING"})
 })
 
@@ -30,7 +30,7 @@ client.on('ready', () => {
 /*Commands*/
 client.on('message', (message) => {
     if(message.author.bot) return;
-    if(!message.guild.channels.cache.find(x => x.name === message.author)) {
+    if(!message.guild.channels.cache.find(x => x.name === message.author)) {   
     if(message.content == (prefix + "new") || message.channel.id == config.ticketChannel) {
 
         message.channel.send(ticket).then(() => {
@@ -61,17 +61,31 @@ client.on('message', (message) => {
 
              })
         }
-    } else {
-        message.send(config.open)      
-        console.log("test");      
-        }
-    if(message.channel) {
-    message.channel.send("test") 
-        
-    }
-    
+        if(message.content == (prefix + "close") || !message.author.roleid(config.supportRoleid)) return; {
+            const filter2 = m => m.content == (prefix + "close") || m.author.id === message.author.id;
+
+            message.channel.awaitMessages(filter2, { max: 1, time: 5000})
+            .then(collected => {
+                message.channel.send("Are you sure you would like to close this ticket?")
+            
+                
+                const filter3 = m => m.content == (prefix + "confirm") || m.author.id === message.author.id;
+            message.channel.awaitMessages(filter3, { max: 1, time: 5000}) 
+            .then(collected => {
+                message.channel.delete()
+            })
         })
+    } 
+            
+} else { 
+    message.send(config.open)
+}
     
+if(message.roleid === config.supportRoleid || message.category === config.awaitingID) {
+    messgae.channel.send("Found support role!")
+}
+
+})
 
 client.login(config.token);
 
